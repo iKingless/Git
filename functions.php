@@ -135,6 +135,38 @@ function footerScript() {
     }
 }
 add_action('wp_enqueue_scripts', 'footerScript');
+
+/*
+* 来自：https://wp-kama.ru/function/get_comment_reply_link
+*/
+function git_replace_comment_reply_link($link, $args, $comment, $post) {
+	if (get_option('comment_registration') && !is_user_logged_in()) {
+		$link = sprintf(
+		                '<a rel="nofollow" class="comment-reply-login" href="%s">%s</a>',
+		                esc_url(wp_login_url(get_permalink())),
+		                $args['login_text']
+		            );
+	} else {
+		$onclick = sprintf(
+		                'return addComment.moveForm( "%1$s-%2$s", "%2$s", "%3$s", "%4$s" )',
+		                $args['add_below'],
+		                $comment->comment_ID,
+		                $args['respond_id'],
+		                $post->ID
+		            );
+		$link = sprintf(
+		                "<a rel='nofollow' class='comment-reply-link' href='%s' onclick='%s' aria-label='%s'>%s</a>",
+		                esc_url(add_query_arg('replytocom', $comment->comment_ID, get_permalink($post->ID))) . "#" . $args['respond_id'],
+		                $onclick,
+		                esc_attr(sprintf($args['reply_to_text'], $comment->comment_author)),
+		                $args['reply_text']
+		            );
+	}
+	return $link;
+}
+add_filter('comment_reply_link', 'git_replace_comment_reply_link', 10, 4);
+
+
 if (!function_exists('deel_paging')) {
     function deel_paging(){
         $p = 4;
