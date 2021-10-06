@@ -7,7 +7,6 @@
 	 die;
  }
 
-$current_theme = wp_get_theme();
 $default_options = array();
 $theme_options = array();
 require('options-config.php');
@@ -20,12 +19,12 @@ function git_update_options() {
 	foreach ($theme_options as $panel) {
 		foreach ($panel as $option) {
 			$option = array();
-			$id = $option['id'];
-			$type = $option['type'];
+			$id = $option['id'] ?? null;
+			$type = $option['type'] ?? null;
 			if ( !$id ) continue;
-			$default_options[$id] = $option['std'];
+			$default_options[$id] = $option['std'] ?? null;
 			if ( isset($current_options[$id]) ) continue;
-			$current_options[$id] = isset( $option['std'] ) ? $option['std'] : '';
+			$current_options[$id] = $option['std'] ?? '';
 		}
 	}
 }
@@ -56,7 +55,7 @@ function git_theme_options_page() {
 	<div class="wp-filter">
 		<ul class="filter-links">
 <?php
-$activePanelIdx = empty($_GET['panel']) ? 0 : $_GET['panel'];
+$activePanelIdx = $_GET['panel'] ?? 0;
 foreach ( array_keys($theme_options) as $i => $name ) {
 	echo '<li><a href="#panel_' . $i . '" data-panel="' . $i . '" ' . ( $i == $activePanelIdx ? 'class="current"' : '' ) . '>' . $name . '</a></li>';
 }
@@ -184,19 +183,9 @@ switch ( $type ) {
 					<ul>
 						<li>主题发布页面：<a target="_blank" href="https://gitcafe.net/archives/3589.html">https://gitcafe.net/archives/3589.html</a></li>
 						<li>使用文档页面：<a target="_blank" href="https://gitcafe.net/archives/3275.html">https://gitcafe.net/archives/3275.html</a></li>
-						<li>代码托管页面：<a target="_blank" href="https://dev.tencent.com/u/googlo/p/Git/git">https://dev.tencent.com/u/googlo/p/Git/git</a></li>
-						<li>更新日志页面：<a target="_blank" href="https://gitcafe.net/tool/gitrss.php">https://gitcafe.net/tool/gitrss.php</a></li>
+						<li>代码托管页面：<a target="_blank" href="https://googlo.coding.net/public/Git/Git/git/files">https://googlo.coding.net/public/Git/Git/git/files</a></li>
+						<li>更新日志页面：<a target="_blank" href="https://googlo.coding.net/public/Git/Git/git/commits">https://googlo.coding.net/public/Git/Git/git/commits</a></li>
 						<li>主题反馈页面：<a target="_blank" href="https://support.qq.com/products/51158">https://support.qq.com/products/51158</a></li>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<th><h4>第三方支持</h4></th>
-				<td>
-					<ul>
-						<li>感谢以下组织或个人：</li>
-						<li>PayJs 、Eapay、WeAuth小程序、Cloud9 、Cloud Studio、Coding 、Gitee 、Github、Server酱、jsDelivr、V2EX</li>
-						<li>露兜、畅萌、小影、大前端、知更鸟、yusi等等</li>
 					</ul>
 				</td>
 			</tr>

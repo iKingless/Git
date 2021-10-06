@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL ^ E_NOTICE);//镇魔石，镇压一切魑魅魍魉！
+
 if (phpversion() < 5.5) {
     wp_die('本主题不支持在PHP5.5以下版本运行，请升级PHP版本 ^_^');
 }
