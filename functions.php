@@ -1448,6 +1448,8 @@ function git_page_id( $pagephp ) {
 //根据订单描述金币数据，d=订单号 u=用户id
 function git_check( $d , $u = null) {
 	global $wpdb;
+    $d = esc_sql($d);
+    $u = esc_sql($u);
 	$des = " WHERE `description` = '" . $d . "'";
 	$userid = "";
 	if ( isset( $u ) && ( $u !== null ) ) {
